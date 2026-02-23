@@ -35,7 +35,7 @@ export function StepAboutYou() {
                 />
               )}
             />
-            <span className="text-sm text-white/80">Record my email with this response</span>
+            <span className="text-sm text-white/80">Record email as the email to be included with my response</span>
           </Label>
           {recordEmail && (
             <div className="mt-2 space-y-2">

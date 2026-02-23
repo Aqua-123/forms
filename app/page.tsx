@@ -39,8 +39,14 @@ export default function Page() {
           </h1>
 
           <p className="mt-5 max-w-lg text-[0.95rem] leading-relaxed text-muted-foreground">
-            This quick assessment (~3 minutes) helps us understand your needs
-            and tailor the FuturixAI experience for you.
+            Thank you for your interest in the FuturixAI beta! To help us tailor the
+            experience, please fill out this quick assessment. It takes ~3 minutes and
+            helps us understand your needs.
+          </p>
+
+          <p className="mt-3 max-w-lg text-[0.8rem] leading-relaxed text-muted-foreground/70">
+            <span className="font-medium text-muted-foreground/90">Note:</span> FuturixAI is currently in closed
+            beta.
           </p>
         </header>
 

@@ -37,7 +37,7 @@ export function StepCompanyWorkflow() {
 
         <Field>
           <FieldLabel>
-            Briefly describe a specific task you wish you could automate <span className="text-destructive">*</span>
+            Briefly describe a specific task you wish you could automate: <span className="text-destructive">*</span>
           </FieldLabel>
           <Textarea
             placeholder="Describe the task, how often you do it, and what makes it tedious..."
