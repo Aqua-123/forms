@@ -1,7 +1,8 @@
 "use server"
 
 import { assessmentSchema, type AssessmentFormData } from "@/lib/schema"
-import { db } from "@/lib/firebase-admin"
+import { db } from "@/lib/db"
+import { assessments } from "@/lib/db/schema"
 
 export type SubmitResult = {
   success: boolean
@@ -20,15 +21,14 @@ export async function submitAssessment(
   }
 
   try {
-    await db.collection("assessments").add({
+    await db.insert(assessments).values({
       ...result.data,
-      submittedAt: new Date().toISOString(),
+      submittedAt: new Date(),
       status: "new",
     })
-
     return { success: true }
   } catch (error) {
-    console.error("Firestore write error:", error)
+    console.error("Database write error:", error)
     return {
       success: false,
       error: "Failed to submit your assessment. Please try again.",
