@@ -1,25 +1,33 @@
-"use client"
+"use client";
 
-import { useFormContext, Controller } from "react-hook-form"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { FieldError } from "@/components/ui/field"
+import { useFormContext, Controller } from "react-hook-form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { FieldError } from "@/components/ui/field";
 
-type Option = { value: string; label: string }
+type Option = { value: string; label: string };
 
 interface RadioWithOtherProps {
-  name: string
-  options: readonly Option[]
+  name: string;
+  options: readonly Option[];
 }
 
 export function RadioWithOther({ name, options }: RadioWithOtherProps) {
-  const { control, watch, formState: { errors } } = useFormContext()
-  const selectedValue = watch(`${name}.selected`)
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+  const selectedValue = watch(`${name}.selected`);
 
   const fieldError = errors[name] as
-    | { selected?: { message?: string }; otherText?: { message?: string }; root?: { message?: string } }
-    | undefined
+    | {
+        selected?: { message?: string };
+        otherText?: { message?: string };
+        root?: { message?: string };
+      }
+    | undefined;
 
   return (
     <div className="space-y-2">
@@ -27,9 +35,13 @@ export function RadioWithOther({ name, options }: RadioWithOtherProps) {
         name={`${name}.selected`}
         control={control}
         render={({ field }) => (
-          <RadioGroup value={field.value} onValueChange={field.onChange} className="gap-1.5">
+          <RadioGroup
+            value={field.value}
+            onValueChange={field.onChange}
+            className="gap-1.5"
+          >
             {options.map((option) => {
-              const isSelected = field.value === option.value
+              const isSelected = field.value === option.value;
               return (
                 <Label
                   key={option.value}
@@ -39,7 +51,7 @@ export function RadioWithOther({ name, options }: RadioWithOtherProps) {
                   <RadioGroupItem value={option.value} />
                   <span className="text-sm text-white/80">{option.label}</span>
                 </Label>
-              )
+              );
             })}
             <Label
               data-selected={selectedValue === "other"}
@@ -56,7 +68,7 @@ export function RadioWithOther({ name, options }: RadioWithOtherProps) {
           name={`${name}.otherText`}
           control={control}
           render={({ field }) => (
-            <div className="pl-7">
+            <div>
               <Input
                 {...field}
                 placeholder="Please specify..."
@@ -66,11 +78,15 @@ export function RadioWithOther({ name, options }: RadioWithOtherProps) {
           )}
         />
       )}
-      {(fieldError?.selected?.message || fieldError?.root?.message || fieldError?.otherText?.message) && (
+      {(fieldError?.selected?.message ||
+        fieldError?.root?.message ||
+        fieldError?.otherText?.message) && (
         <FieldError>
-          {fieldError?.selected?.message || fieldError?.root?.message || fieldError?.otherText?.message}
+          {fieldError?.selected?.message ||
+            fieldError?.root?.message ||
+            fieldError?.otherText?.message}
         </FieldError>
       )}
     </div>
-  )
+  );
 }
