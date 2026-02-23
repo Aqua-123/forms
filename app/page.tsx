@@ -1,5 +1,5 @@
-import Image from "next/image"
-import { AssessmentForm } from "@/components/assessment/assessment-form"
+import Image from "next/image";
+import { AssessmentForm } from "@/components/assessment/assessment-form";
 
 export default function Page() {
   return (
@@ -42,15 +42,10 @@ export default function Page() {
             This quick assessment (~3 minutes) helps us understand your needs
             and tailor the FuturixAI experience for you.
           </p>
-
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground/50">
-            Priority will be given to users whose workflows align best with our
-            current capabilities.
-          </p>
         </header>
 
         <AssessmentForm />
       </div>
     </main>
-  )
+  );
 }
