@@ -72,11 +72,23 @@ export function AssessmentForm() {
   function onSubmit(data: AssessmentFormData) {
     setSubmitError(null)
     startTransition(async () => {
-      const result = await submitAssessment(data)
-      if (result.success) {
-        setIsSuccess(true)
-      } else {
-        setSubmitError(result.error || "Something went wrong. Please try again.")
+      try {
+        const result = await submitAssessment(data)
+        if (result.success) {
+          setIsSuccess(true)
+        } else {
+          setSubmitError(result.error || "Something went wrong. Please try again.")
+        }
+      } catch (error) {
+        // Server action hash mismatch after new deployment — reload to get fresh client
+        if (
+          error instanceof Error &&
+          error.message.includes("Failed to find Server Action")
+        ) {
+          window.location.reload()
+          return
+        }
+        setSubmitError("Something went wrong. Please try again.")
       }
     })
   }
