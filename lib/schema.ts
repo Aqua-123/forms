@@ -3,11 +3,27 @@ import { z } from "zod"
 const radioWithOtherSchema = z.object({
   selected: z.string().min(1, "Please select an option"),
   otherText: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.selected === "other" && (!data.otherText || data.otherText.trim().length === 0)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please specify your answer for 'Other'",
+      path: ["otherText"],
+    })
+  }
 })
 
 const checkboxWithOtherSchema = z.object({
   selected: z.array(z.string()).min(1, "Select at least one option"),
   otherText: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.selected.includes("other") && (!data.otherText || data.otherText.trim().length === 0)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please specify your answer for 'Other'",
+      path: ["otherText"],
+    })
+  }
 })
 
 export const assessmentBaseSchema = z.object({
@@ -46,19 +62,6 @@ export const assessmentSchema = assessmentBaseSchema
   .refine(
     (data) => !data.recordEmail || (data.email && data.email.length > 0),
     { message: "Email is required when you opt in to record it", path: ["email"] }
-  )
-  .refine(
-    (data) => {
-      const radioFields = ["industry", "companySize", "aiFamiliarity", "monthlyBudget"] as const
-      for (const field of radioFields) {
-        const val = data[field]
-        if (val.selected === "other" && (!val.otherText || val.otherText.trim().length === 0)) {
-          return false
-        }
-      }
-      return true
-    },
-    { message: "Please specify your answer for 'Other' selections" }
   )
 
 // Type for form state (from base schema, no refinements)
